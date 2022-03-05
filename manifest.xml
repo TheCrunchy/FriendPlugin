@@ -2,5 +2,5 @@
 <PluginManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>FriendPlugin</Name>
   <Guid>ef0255de-287b-4397-a5d0-aa2da34e91b0</Guid>
-  <Version>v1.0</Version>
+  <Version>v1.1</Version>
 </PluginManifest>

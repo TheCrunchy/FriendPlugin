@@ -16,7 +16,7 @@ namespace FriendCommand
     public class Commands : CommandModule
     {
 
-        public Dictionary<long, List<long>> friendRequests = new Dictionary<long, List<long>>();
+        public static Dictionary<long, List<long>> friendRequests = new Dictionary<long, List<long>>();
 
         [Command("add", "send friend request")]
         [Permission(MyPromoteLevel.None)]
@@ -54,14 +54,14 @@ namespace FriendCommand
                         friendRequests.Add(target.FactionId, t);
                     }
                     Context.Respond("Friend request sent!", "FP");
-                    foreach (MyFactionMember mb in fac.Members.Values)
+                    foreach (MyFactionMember mb in target.Members.Values)
                     {
 
 
                         ulong steamid = MySession.Static.Players.TryGetSteamId(mb.PlayerId);
                         if (steamid != 0)
                         {
-                            Core.SendMessage("Friend Plugin", String.Format("{0} has sent a friend request, use !friend requests to see requests", fac.Tag) , Color.DarkGreen, (long)steamid);
+                            Core.SendMessage("FP", String.Format("{0} has sent a friend request, use !friend requests to see requests", fac.Tag) , Color.DarkGreen, (long)steamid);
                         }
 
                     }
@@ -104,8 +104,13 @@ namespace FriendCommand
                         }
                     }
                 }
+                Context.Respond("Accept a request with !friend accept #", Color.Green, "FP");
             }
-            Context.Respond("Accept a request with !friend accept #", Color.Green, "FP");
+            else
+            {
+                Context.Respond("You are not a member of a faction!");
+            }
+
         }
 
         [Command("accept", "accept friend request")]
