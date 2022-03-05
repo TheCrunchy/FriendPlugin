@@ -37,7 +37,7 @@ namespace FriendCommand
                 sessionManager.SessionStateChanged += SessionChanged;
             }
 
-   
+
 
         }
         public static void SendMessage(string author, string message, Color color, long steamID)
@@ -69,14 +69,16 @@ namespace FriendCommand
 
         public static void DoFriendlyUpdate(long firstId, long SecondId)
         {
-            MyFactionStateChange change = MyFactionStateChange.SendFriendRequest;
-            MyFactionStateChange change2 = MyFactionStateChange.AcceptFriendRequest;
-            List<object[]> Input = new List<object[]>();
-            object[] MethodInput = new object[] { change, firstId, SecondId, 0L };
-            sendChange?.Invoke(null, MethodInput);
-            object[] MethodInput2 = new object[] { change2, SecondId, firstId, 0L };
-            sendChange?.Invoke(null, MethodInput2);
-
+            Sandbox.ModAPI.MyAPIGateway.Utilities.InvokeOnGameThread(() =>
+            {
+                MyFactionStateChange change = MyFactionStateChange.SendFriendRequest;
+                MyFactionStateChange change2 = MyFactionStateChange.AcceptFriendRequest;
+                List<object[]> Input = new List<object[]>();
+                object[] MethodInput = new object[] { change, firstId, SecondId, 0L };
+                sendChange?.Invoke(null, MethodInput);
+                object[] MethodInput2 = new object[] { change2, SecondId, firstId, 0L };
+                sendChange?.Invoke(null, MethodInput2);
+            });
         }
 
         private void SessionChanged(ITorchSession session, TorchSessionState newState)

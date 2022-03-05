@@ -100,7 +100,7 @@ namespace FriendCommand
                         MyFaction otherFac = MySession.Static.Factions.TryGetFactionById(l) as MyFaction;
                         if (otherFac != null)
                         {
-                            Context.Respond(String.Format("[{0}] : {1}", i, otherFac.Tag), "FP");
+                            Context.Respond(String.Format("[ {0} ] : {1}", i, otherFac.Tag), "FP");
                         }
                     }
                 }
@@ -147,18 +147,17 @@ namespace FriendCommand
                             if (target != null)
                             {
                                 Core.DoFriendlyUpdate(fac.FactionId, target.FactionId);
+                             
                                 MySession.Static.Factions.SetReputationBetweenFactions(fac.FactionId, target.FactionId, 1500);
-                                temp.Remove(num - 1);
+                                temp.Remove(target.FactionId);
                                 friendRequests[fac.FactionId] = temp;
                                 Context.Respond("Accepted request!", "FP");
                                 foreach (MyFactionMember mb in target.Members.Values)
                                 {
-
-
                                     ulong steamid = MySession.Static.Players.TryGetSteamId(mb.PlayerId);
                                     if (steamid != 0)
                                     {
-                                        Core.SendMessage("Friend Plugin", String.Format("{0} has accepted the friend request!", fac.Tag), Color.DarkGreen, (long)steamid);
+                                        Core.SendMessage("FP", String.Format("{0} has accepted the friend request!", fac.Tag), Color.DarkGreen, (long)steamid);
                                     }
 
                                 }
